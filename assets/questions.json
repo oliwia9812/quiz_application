@@ -1,0 +1,28 @@
+[
+        {
+            "question": "Which country is Europe's biggest exporter of beers?",
+            "answers": ["Poland", "German", "Belgium", "Netherlands"],
+            "correctAnswer": "Netherlands"
+        },
+        {
+            "question": "Name the longest river in the UK",
+            "answers": ["Severn", "Vistula", "Amazon", "Nile"],
+            "correctAnswer": "Severn"
+        },
+        {
+            "question": "The tallest building in the world is located in which city?",
+            "answers": ["Venice", "Dubai", "Amsterdam", "Los Angeles"],
+            "correctAnswer": "Dubai"
+        },
+        {
+            "question": "How many children does Queen Elizabeth have?",
+            "answers": ["Three", "Two", "Four", "One"],
+            "correctAnswer": "Four"
+        },
+        {
+            "question": "Which city hosted the Olympics in the year 2000?" ,
+            "answers": ["Sydney", "Warsaw", "London", "New York"],
+            "correctAnswer": "Sydney"
+        }
+
+    ]
