@@ -42,10 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 50.0),
-                // ProgressBar(
-                //   percent: 0.2,
-                //   questionNumber: _questionIndex + 1,
-                // ),
+                ProgressBar(
+                  percent: (_questionIndex + 1) * 0.2,
+                  questionNumber: _questionIndex + 1,
+                ),
                 const SizedBox(height: 50.0),
                 Stack(
                   children: [
