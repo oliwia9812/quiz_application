@@ -9,9 +9,16 @@ enum ButtonState {
 class AnswerButton extends StatefulWidget {
   final String answerText;
   final String correctAnswer;
-  const AnswerButton(
-      {Key? key, required this.answerText, required this.correctAnswer})
-      : super(key: key);
+  int questionIndex;
+  final VoidCallback callback;
+
+  AnswerButton({
+    Key? key,
+    required this.answerText,
+    required this.correctAnswer,
+    required this.questionIndex,
+    required this.callback,
+  }) : super(key: key);
 
   @override
   State<AnswerButton> createState() => _AnswerButtonState();
@@ -21,10 +28,18 @@ class _AnswerButtonState extends State<AnswerButton> {
   ButtonState buttonState = ButtonState.noAnswer;
 
   @override
+  void didUpdateWidget(covariant AnswerButton oldWidget) {
+    if (widget.questionIndex != oldWidget.questionIndex) {
+      buttonState = ButtonState.noAnswer;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
+          widget.callback();
           if (widget.answerText == widget.correctAnswer) {
             buttonState = ButtonState.correctAnswer;
           } else if (widget.answerText != widget.correctAnswer) {

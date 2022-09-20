@@ -5,13 +5,13 @@ part 'question.g.dart';
   createToJson: false,
 )
 class Question {
-  final String question, correctAnswer;
   final List<String> answers;
+  final String correctAnswer, question;
 
   Question({
-    required this.question,
     required this.answers,
     required this.correctAnswer,
+    required this.question,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) =>
