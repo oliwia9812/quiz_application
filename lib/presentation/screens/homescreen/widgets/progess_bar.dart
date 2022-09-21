@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizz/styles.dart';
+import '../../../../styles.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class ProgressBar extends StatefulWidget {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// typedef ScoreValue = int Function(int);
+
 enum ButtonState {
   correctAnswer,
   incorrectAnswer,
@@ -10,7 +12,8 @@ class AnswerButton extends StatefulWidget {
   final String answerText;
   final String correctAnswer;
   int questionIndex;
-  final VoidCallback callback;
+  // final VoidCallback callback;
+  Function(bool) callback;
 
   AnswerButton({
     Key? key,
@@ -26,6 +29,7 @@ class AnswerButton extends StatefulWidget {
 
 class _AnswerButtonState extends State<AnswerButton> {
   ButtonState buttonState = ButtonState.noAnswer;
+  bool answerIsCorrect = false;
 
   @override
   void didUpdateWidget(covariant AnswerButton oldWidget) {
@@ -39,12 +43,14 @@ class _AnswerButtonState extends State<AnswerButton> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          widget.callback();
           if (widget.answerText == widget.correctAnswer) {
             buttonState = ButtonState.correctAnswer;
+            answerIsCorrect = true;
           } else if (widget.answerText != widget.correctAnswer) {
             buttonState = ButtonState.incorrectAnswer;
+            answerIsCorrect = false;
           }
+          widget.callback(answerIsCorrect);
         });
       },
       child: Container(

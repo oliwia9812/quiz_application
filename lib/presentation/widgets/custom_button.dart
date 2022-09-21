@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizz/styles.dart';
+import '../../styles.dart';
 
 class CustomButton extends StatefulWidget {
   final String buttonText;

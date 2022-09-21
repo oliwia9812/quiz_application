@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:quizz/presentation/screens/homescreen/home_screen.dart';
-import 'package:quizz/presentation/widgets/custom_button.dart';
-import 'package:quizz/styles.dart';
+import '../homescreen/home_screen.dart';
+import '../introscreen/intro_screen.dart';
+import '../../widgets/custom_button.dart';
+import '../../../styles.dart';
+
+enum Score {
+  highScore,
+  lowScore,
+}
 
 class ResultScreen extends StatefulWidget {
-  const ResultScreen({Key? key}) : super(key: key);
+  final int finalScore;
+  const ResultScreen({Key? key, required this.finalScore}) : super(key: key);
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -29,10 +36,33 @@ class _ResultScreenState extends State<ResultScreen> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    SizedBox.shrink(),
-                    Text("Quizz result"),
-                    Icon(Icons.close),
+                  children: [
+                    const SizedBox(
+                      width: 30.0,
+                    ),
+                    const Text(
+                      "Quizz result",
+                      style: TextStyle(
+                        color: Styles.darkBlueColor,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    IconButton(
+                      padding: const EdgeInsets.all(0.0),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => const IntroScreen()),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        size: 30.0,
+                      ),
+                    ),
                   ],
                 ),
                 Container(
@@ -45,7 +75,36 @@ class _ResultScreenState extends State<ResultScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('helllo'),
+                      Image.asset(
+                        _getImage(),
+                        height: 220.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text(
+                          _getTitle(),
+                          style: const TextStyle(
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Your score: ${_getPercentScore()}%',
+                        style: TextStyle(
+                          fontSize: 32.0,
+                          fontWeight: FontWeight.w600,
+                          color: _getColor(),
+                        ),
+                      ),
+                      Text(
+                        '${widget.finalScore}/5 answers was correct',
+                        style: const TextStyle(
+                          color: Styles.darkBlueColor,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -67,5 +126,33 @@ class _ResultScreenState extends State<ResultScreen> {
         ),
       ),
     );
+  }
+
+  int _getPercentScore() {
+    return (widget.finalScore * 0.2 * 100).toInt();
+  }
+
+  String _getImage() {
+    if (widget.finalScore > 3) {
+      return 'assets/high-score.png';
+    } else {
+      return 'assets/low-score.png';
+    }
+  }
+
+  String _getTitle() {
+    if (widget.finalScore > 3) {
+      return 'Congratulation!';
+    } else {
+      return 'Try again!';
+    }
+  }
+
+  Color _getColor() {
+    if (widget.finalScore > 3) {
+      return Colors.green.shade600;
+    } else {
+      return Colors.red.shade600;
+    }
   }
 }

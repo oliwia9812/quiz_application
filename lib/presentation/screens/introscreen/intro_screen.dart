@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quizz/presentation/widgets/custom_button.dart';
-import 'package:quizz/styles.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizz/bloc/home_bloc.dart';
+import '../../widgets/custom_button.dart';
+import '../../../styles.dart';
 
 import '../homescreen/home_screen.dart';
 
@@ -48,6 +50,7 @@ class IntroScreen extends StatelessWidget {
                   CustomButton(
                     buttonText: 'Start Quizz!',
                     callback: () {
+                      BlocProvider.of<HomeBloc>(context).add(GetQuestionList());
                       Navigator.push(
                         context,
                         MaterialPageRoute(

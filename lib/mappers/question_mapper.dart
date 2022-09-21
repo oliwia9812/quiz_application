@@ -1,4 +1,4 @@
-import 'package:quizz/models/question_model.dart';
+import '../models/question_model.dart';
 import '../rest_models/question.dart';
 
 extension QuestionMapper on Question {
