@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-// typedef ScoreValue = int Function(int);
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizz/bloc/home_bloc.dart';
 
 enum ButtonState {
   correctAnswer,
@@ -10,17 +10,10 @@ enum ButtonState {
 
 class AnswerButton extends StatefulWidget {
   final String answerText;
-  final String correctAnswer;
-  int questionIndex;
-  // final VoidCallback callback;
-  Function(bool) callback;
 
   AnswerButton({
     Key? key,
     required this.answerText,
-    required this.correctAnswer,
-    required this.questionIndex,
-    required this.callback,
   }) : super(key: key);
 
   @override
@@ -31,26 +24,20 @@ class _AnswerButtonState extends State<AnswerButton> {
   ButtonState buttonState = ButtonState.noAnswer;
   bool answerIsCorrect = false;
 
-  @override
-  void didUpdateWidget(covariant AnswerButton oldWidget) {
-    if (widget.questionIndex != oldWidget.questionIndex) {
-      buttonState = ButtonState.noAnswer;
-    }
-  }
+  // @override
+  // void didUpdateWidget(covariant AnswerButton oldWidget) {
+  //   if (widget.questionIndex != oldWidget.questionIndex) {
+  //     buttonState = ButtonState.noAnswer;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          if (widget.answerText == widget.correctAnswer) {
-            buttonState = ButtonState.correctAnswer;
-            answerIsCorrect = true;
-          } else if (widget.answerText != widget.correctAnswer) {
-            buttonState = ButtonState.incorrectAnswer;
-            answerIsCorrect = false;
-          }
-          widget.callback(answerIsCorrect);
+          BlocProvider.of<HomeBloc>(context)
+              .add(CheckAnswer(selectedAnswer: widget.answerText));
         });
       },
       child: Container(

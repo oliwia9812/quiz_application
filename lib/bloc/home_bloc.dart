@@ -9,18 +9,32 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(HomeInitial()) {
+  late List<QuestionModel> questionList;
+  int questionNumber = 0;
+
+  HomeBloc() : super(HomeLoading()) {
     on<GetQuestionList>((event, emit) async {
-      emit(HomeLoading());
-      await Future.delayed(Duration(seconds: 2));
-      List<QuestionModel> questionList = await fetchJson();
+      await Future.delayed(const Duration(seconds: 1));
+      questionList = await fetchJson();
 
       if (questionList.isEmpty) {
         emit(HomeError());
         return;
       }
 
-      emit(HomeLoaded(questions: questionList));
+      add(GetQuestion());
+    });
+
+    on<GetQuestion>((event, emit) async {
+      final QuestionModel question = questionList[questionNumber];
+
+      questionNumber++;
+      emit(HomeLoaded(question: question));
+    });
+
+    on<CheckAnswer>((event, emit) async {
+      final QuestionModel question = questionList[questionNumber - 1];
+      final String selectedAnswer = event.selectedAnswer;
     });
   }
 }
