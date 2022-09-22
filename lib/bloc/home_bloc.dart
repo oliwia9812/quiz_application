@@ -22,18 +22,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
 
-      add(GetQuestion());
+      add(GetQuestion(firstQuestion: true));
     });
 
     on<GetQuestion>((event, emit) async {
-      final QuestionModel question = questionList[questionNumber];
+      if (!event.firstQuestion) {
+        questionNumber++;
+      }
 
-      questionNumber++;
-      emit(HomeLoaded(question: question));
+      emit(HomeLoaded(question: questionList[questionNumber]));
     });
 
     on<CheckAnswer>((event, emit) async {
-      final QuestionModel question = questionList[questionNumber - 1];
+      final QuestionModel question = questionList[questionNumber];
       final String selectedAnswer = event.selectedAnswer;
     });
   }

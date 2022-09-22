@@ -120,8 +120,8 @@ class HomeScreen extends StatelessWidget {
                                     child: CustomButton(
                                       buttonText: 'Next question',
                                       callback: () {
-                                        BlocProvider.of<HomeBloc>(context)
-                                            .add(GetQuestion());
+                                        BlocProvider.of<HomeBloc>(context).add(
+                                            GetQuestion(firstQuestion: false));
                                       },
                                       isGame: true,
                                     ),
