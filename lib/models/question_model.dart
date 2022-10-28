@@ -1,10 +1,21 @@
-class QuestionModel {
-  final String question, correctAnswer;
-  final List<String> answers;
+import 'package:equatable/equatable.dart';
+import 'package:quizz/models/answer_model.dart';
+
+class QuestionModel extends Equatable {
+  String? correct_answer;
+  List<AnswerModel>? answers;
+  String? question;
 
   QuestionModel({
-    required this.question,
+    required this.correct_answer,
     required this.answers,
-    required this.correctAnswer,
+    required this.question,
   });
+
+  @override
+  List<Object?> get props => [
+        correct_answer,
+        answers,
+        question,
+      ];
 }

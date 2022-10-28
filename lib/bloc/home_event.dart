@@ -3,13 +3,13 @@ part of 'home_bloc.dart';
 @immutable
 abstract class HomeEvent {}
 
-class GetQuestionList extends HomeEvent {}
-
 class GetQuestion extends HomeEvent {
-  bool firstQuestion;
+  final String? difficulty;
 
-  GetQuestion({required this.firstQuestion});
+  GetQuestion({required this.difficulty});
 }
+
+class GetNextQuestion extends HomeEvent {}
 
 class CheckAnswer extends HomeEvent {
   final String selectedAnswer;

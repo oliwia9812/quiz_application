@@ -3,12 +3,12 @@ part of 'home_bloc.dart';
 @immutable
 abstract class HomeState {}
 
-class HomeLoading extends HomeState {}
+class QuestionLoading extends HomeState {}
 
-class HomeLoaded extends HomeState {
+class QuestionLoaded extends HomeState {
   final QuestionModel question;
 
-  HomeLoaded({required this.question});
+  QuestionLoaded({required this.question});
 }
 
-class HomeError extends HomeState {}
+class QuestionError extends HomeState {}
