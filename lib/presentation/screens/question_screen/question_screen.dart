@@ -4,6 +4,7 @@ import 'package:quizz/bloc/home_bloc.dart';
 import 'package:quizz/models/question_model.dart';
 import 'package:quizz/presentation/screens/question_screen/widgets/answer_button.dart';
 import 'package:quizz/presentation/screens/question_screen/widgets/progess_bar.dart';
+import 'package:quizz/presentation/screens/result_screen/result_screen.dart';
 import 'package:quizz/presentation/widgets/custom_button.dart';
 import 'package:quizz/styles/app_colors.dart';
 import 'package:quizz/styles/app_text_styles.dart';
@@ -21,27 +22,43 @@ bool? _isSelected = false;
 class _QuestionScreenState extends State<QuestionScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: AppColors.gradientBackground,
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          minimum: const EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: 64.0,
-          ),
-          child: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              if (state is QuestionLoading) {
-                return _buildLoading();
-              }
-              if (state is QuestionLoaded) {
-                return _buildQuestionView(state.question, context);
-              }
-              return const SizedBox.shrink();
-            },
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is QuestionsEnded) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (constext) => ResultScreen(
+                questionsAmount:
+                    BlocProvider.of<HomeBloc>(context).totalQuestions,
+                finalScore: state.totalScore,
+              ),
+            ),
+          );
+        }
+      },
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: AppColors.gradientBackground,
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            minimum: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 64.0,
+            ),
+            child: BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) {
+                if (state is QuestionLoading) {
+                  return _buildLoading();
+                }
+                if (state is QuestionLoaded) {
+                  return _buildQuestionView(state.question, context);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
           ),
         ),
       ),

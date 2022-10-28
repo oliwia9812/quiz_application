@@ -14,11 +14,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<Question>? questionList = [];
   QuestionModel? questionModel;
   late int totalQuestions;
+  int totalScore = 0;
 
   HomeBloc({required this.questionRepositoryImpl}) : super(QuestionLoading()) {
     on<GetQuestion>(_onGetQuestion);
     on<GetNextQuestion>(_onGetNextQuestion);
     on<CheckAnswer>(_onCheckAnswer);
+    on<ResetQuiz>(_onResetQuiz);
+  }
+
+  void _onResetQuiz(ResetQuiz event, Emitter<HomeState> emit) {
+    currentQuestion = 0;
+    totalScore = 0;
   }
 
   void _onCheckAnswer(CheckAnswer event, Emitter<HomeState> emit) {
@@ -34,6 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     if (selectedAnswer == correctAnswer) {
       questionModel!.answers![selectedIndex].isCorrect = true;
+      totalScore++;
     } else {
       questionModel!.answers![selectedIndex].isCorrect = false;
     }
@@ -63,8 +71,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _onGetNextQuestion(GetNextQuestion event, Emitter<HomeState> emit) {
-    if (currentQuestion < totalQuestions) {
+    if (currentQuestion + 1 < totalQuestions) {
       currentQuestion++;
+    } else {
+      emit(QuestionsEnded(totalScore: totalScore));
     }
 
     add(GetQuestion(difficulty: currentCategory));

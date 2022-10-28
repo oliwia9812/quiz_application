@@ -16,3 +16,5 @@ class CheckAnswer extends HomeEvent {
 
   CheckAnswer({required this.selectedAnswer});
 }
+
+class ResetQuiz extends HomeEvent {}

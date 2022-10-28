@@ -4,14 +4,19 @@ import 'package:quizz/styles/app_colors.dart';
 abstract class AppTextStyles {
   static const TextStyle titleLarge = TextStyle(
     color: AppColors.darkBlue,
-    fontSize: 32.0,
-    fontWeight: FontWeight.w600,
+    fontSize: 28.0,
+    fontWeight: FontWeight.w800,
   );
 
   static const TextStyle titleMedium = TextStyle(
     color: AppColors.darkBlue,
     fontSize: 26.0,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
+  );
+  static const TextStyle titleSmall = TextStyle(
+    color: AppColors.darkBlue,
+    fontSize: 18.0,
+    fontWeight: FontWeight.w700,
   );
 
   static const TextStyle customButtonTitle = TextStyle(

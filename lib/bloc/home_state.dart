@@ -11,4 +11,8 @@ class QuestionLoaded extends HomeState {
   QuestionLoaded({required this.question});
 }
 
-class QuestionError extends HomeState {}
+class QuestionsEnded extends HomeState {
+  final int totalScore;
+
+  QuestionsEnded({required this.totalScore});
+}
