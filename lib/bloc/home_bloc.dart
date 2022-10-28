@@ -11,7 +11,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   QuestionRepositoryImpl questionRepositoryImpl;
   int currentQuestion = 0;
   String? currentCategory;
-  List<Question>? questionList = [];
+  List<QuestionModel> listQuestionModel = [];
   QuestionModel? questionModel;
   late int totalQuestions;
   int totalScore = 0;
@@ -30,20 +30,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void _onCheckAnswer(CheckAnswer event, Emitter<HomeState> emit) {
     final String selectedAnswer = event.selectedAnswer;
-    final String correctAnswer = questionList![currentQuestion].correct_answer!;
+    final String correctAnswer =
+        listQuestionModel[currentQuestion].correct_answer!;
+
     late int selectedIndex;
 
     for (var i = 0; i < questionModel!.answers!.length; i++) {
-      if (questionModel!.answers![i].title == selectedAnswer) {
+      if (listQuestionModel[currentQuestion].answers![i].title ==
+          selectedAnswer) {
         selectedIndex = i;
       }
     }
 
     if (selectedAnswer == correctAnswer) {
-      questionModel!.answers![selectedIndex].isCorrect = true;
+      listQuestionModel[currentQuestion].answers![selectedIndex].isCorrect =
+          true;
       totalScore++;
     } else {
-      questionModel!.answers![selectedIndex].isCorrect = false;
+      listQuestionModel[currentQuestion].answers![selectedIndex].isCorrect =
+          false;
     }
   }
 
@@ -54,17 +59,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Results? results =
         await questionRepositoryImpl.fetchResults(difficulty: currentCategory!);
 
-    questionList = results!.results;
-    questionModel = questionList![currentQuestion].mapToQuestionModel();
+    List<Question>? questionList = results!.results;
 
-    totalQuestions = questionList!.length;
+    listQuestionModel = questionList!.mapToListQuestionModel();
+    totalQuestions = listQuestionModel.length;
 
     emit(
       QuestionLoaded(
         question: QuestionModel(
-          correct_answer: questionModel!.correct_answer,
-          answers: questionModel!.answers,
-          question: questionModel!.question,
+          correct_answer: listQuestionModel[currentQuestion].correct_answer,
+          answers: listQuestionModel[currentQuestion].answers,
+          question: listQuestionModel[currentQuestion].question,
         ),
       ),
     );
@@ -77,6 +82,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(QuestionsEnded(totalScore: totalScore));
     }
 
-    add(GetQuestion(difficulty: currentCategory));
+    emit(
+      QuestionLoaded(
+        question: QuestionModel(
+          correct_answer: listQuestionModel[currentQuestion].correct_answer,
+          answers: listQuestionModel[currentQuestion].answers,
+          question: listQuestionModel[currentQuestion].question,
+        ),
+      ),
+    );
   }
 }
